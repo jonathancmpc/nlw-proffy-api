@@ -1,13 +1,11 @@
 import express from 'express';
+import routes from './routes';
 
 const app = express();
 /* Pedindo para que o express e o app entenda json */
 app.use(express.json());
-
-/* Definindo a rota */
-app.get('/', (request, response) => {
-  return response.json({ message: 'Hello World'});
-});
+/* Utilizando as rotas */
+app.use(routes);
 
 /* Ouvindo as requisições http na porta 3333 */
 app.listen(3333, () => {
