@@ -1,7 +1,10 @@
 import express from 'express';
+import cors from 'cors';
 import routes from './routes';
 
 const app = express();
+
+app.use(cors());
 /* Pedindo para que o express e o app entenda json */
 app.use(express.json());
 /* Utilizando as rotas */
