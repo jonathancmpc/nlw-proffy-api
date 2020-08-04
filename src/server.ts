@@ -1,22 +1,15 @@
 import express from 'express';
 
 const app = express();
-
-const users = [
-  {
-    name: 'Jonathan',
-    age: 29,
-  },
-  {
-    name: 'Kelly',
-    age: 29,
-  }
-];
+/* Pedindo para que o express e o app entenda json */
+app.use(express.json());
 
 /* Definindo a rota */
-app.get('/users', (request, response) => {
-  return response.json(users);
+app.get('/', (request, response) => {
+  return response.json({ message: 'Hello World'});
 });
 
 /* Ouvindo as requisições http na porta 3333 */
-app.listen(3333);
+app.listen(3333, () => {
+  console.log('🚀 Server started on port 3333!');
+});
