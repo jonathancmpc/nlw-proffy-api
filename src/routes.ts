@@ -14,8 +14,10 @@ interface ScheduleItem {
 routes.post('/classes', async (request, response) => {
   const { name, avatar, whatsapp, bio, subject, cost, schedule } = request.body;
 
+  const trx = await db.transaction();
+
   /* Inserindo os dados no banco de dados, o insert sempre retorna o id dos itens que foram incluídos */
-  const insertedUsersIds = await db('users').insert({
+  const insertedUsersIds = await trx('users').insert({
     name, 
     avatar, 
     whatsapp, 
@@ -25,7 +27,7 @@ routes.post('/classes', async (request, response) => {
     /* Pegando o primeiro id retornado pelo insert realizado na tabela de usuários(lembrando que é o primeiro id realizado a cada requisição e não o primeiro id da tabela) */
   const user_id = insertedUsersIds[0];
 
-  const insertedClassesIds = await db('classes').insert({
+  const insertedClassesIds = await trx('classes').insert({
     subject,
     cost,
     user_id
@@ -44,7 +46,9 @@ routes.post('/classes', async (request, response) => {
   });
 
   /* Inserimos então no banco de dados com os valores formatados, e passamos a variável classSchedule pq já está no formato que o banco espera */
-  await db('class_schedule').insert(classSchedule);
+  await trx('class_schedule').insert(classSchedule);
+
+  await trx.commit();
 
   return response.send();
 });
